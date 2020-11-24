@@ -2,6 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 
 import { CustomError } from '../errors/custom-error';
 
+/*
+  If an error is thrown by any previous express handler, this
+  middelware will run and allow us to standardize our error
+  response.
+*/
 export const errorHandler = (
   err: Error,
   req: Request,
@@ -12,6 +17,8 @@ export const errorHandler = (
     console.log(err);
     return res.status(err.statusCode).send({ errors: err.serializeErrors() });
   }
+
+  console.log(err);
 
   res.status(400).send({ errors: [{ message: 'Something went wrong' }] });
 };
