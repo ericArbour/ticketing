@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@earbtickets/common": "^1.0.9",
     "@types/cookie-session": "^2.0.41",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.10.0",
