@@ -1,6 +1,6 @@
 {
   "name": "@earbtickets/common",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -11,7 +11,7 @@
     "clean": "del ./build/*",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "pub": "npm version patch && npm run build && git add . && git commit -m \"$npm_config_message\" --amend --no-edit && npm publish"
+    "pub": "npm version patch && npm run build && git add . && git commit -m \"$npm_config_message\" && npm publish"
   },
   "keywords": [],
   "author": "",
