@@ -8,17 +8,17 @@ interface UserAttrs {
   password: string;
 }
 
+// An interface that describes the properties that
+// a User Document has after being created by mongoose
+export interface UserDoc extends mongoose.Document {
+  email: string;
+  password: string;
+}
+
 // An interface that describes the properties
 // that a user model has
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
-}
-
-// An interface that describes the properties
-// that a User Document has
-export interface UserDoc extends mongoose.Document {
-  email: string;
-  password: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -62,9 +62,9 @@ userSchema.pre('save', async function (done) {
 
 // Statics is a mongoose feature that allows us to attach
 // custom functions to model constructors. This build function
-// is a type-safe wrapper around mongoose's non-safe constructor.
+// is a type-safe wrapper around mongoose's non-type-safe constructor.
 userSchema.statics.build = (attrs: UserAttrs) => {
-  // statics must be set before the schema is passwed to
+  // statics must be set before the schema is passed to
   // mongoose.model, so it's a little awkard that we have to
   // call new User up here before it is defined, but js scope
   // rules permit it.

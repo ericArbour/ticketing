@@ -24,3 +24,11 @@ build:
         manual:
           - src: '***/*.ts'
             dest: .
+    - image: arboureric/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '***/*.ts'
+            dest: .
