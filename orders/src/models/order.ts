@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { OrderStatus } from '@earbtickets/common';
 
 import { TicketDoc } from './ticket';
@@ -21,6 +22,7 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+  version: number;
 }
 
 // An interface that describes the properties
@@ -29,7 +31,7 @@ interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): OrderDoc;
 }
 
-const orderSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema<OrderDoc>(
   {
     userId: {
       type: String,
@@ -64,6 +66,9 @@ const orderSchema = new mongoose.Schema(
     },
   },
 );
+
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 // Statics is a mongoose feature that allows us to attach
 // custom functions to model constructors. This build function
