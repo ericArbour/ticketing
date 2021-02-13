@@ -16,14 +16,14 @@ build:
         manual:
           - src: '***/*.ts'
             dest: .
-    - image: arboureric/client
-      context: client
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '***/*.ts'
-            dest: .
+    # - image: arboureric/client
+    #   context: client
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: '***/*.ts'
+    #         dest: .
     - image: arboureric/tickets
       context: tickets
       docker:
@@ -42,6 +42,14 @@ build:
             dest: .
     - image: arboureric/expiration
       context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '***/*.ts'
+            dest: .
+    - image: arboureric/payments
+      context: payments
       docker:
         dockerfile: Dockerfile
       sync:
