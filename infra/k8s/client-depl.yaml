@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: arboureric/client
+          image: us.gcr.io/ticketing-dev-304820/client
 ---
 apiVersion: v1
 kind: Service

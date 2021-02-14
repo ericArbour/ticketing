@@ -5,10 +5,10 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  local:
-    push: false
+  googleCloudBuild:
+    projectId: ticketing-dev-304820
   artifacts:
-    - image: arboureric/auth
+    - image: us.gcr.io/ticketing-dev-304820/auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -16,15 +16,15 @@ build:
         manual:
           - src: '***/*.ts'
             dest: .
-    # - image: arboureric/client
-    #   context: client
-    #   docker:
-    #     dockerfile: Dockerfile
-    #   sync:
-    #     manual:
-    #       - src: '***/*.ts'
-    #         dest: .
-    - image: arboureric/tickets
+    - image: us.gcr.io/ticketing-dev-304820/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '***/*.ts'
+            dest: .
+    - image: us.gcr.io/ticketing-dev-304820/tickets
       context: tickets
       docker:
         dockerfile: Dockerfile
@@ -32,7 +32,7 @@ build:
         manual:
           - src: '***/*.ts'
             dest: .
-    - image: arboureric/orders
+    - image: us.gcr.io/ticketing-dev-304820/orders
       context: orders
       docker:
         dockerfile: Dockerfile
@@ -40,7 +40,7 @@ build:
         manual:
           - src: '***/*.ts'
             dest: .
-    - image: arboureric/expiration
+    - image: us.gcr.io/ticketing-dev-304820/expiration
       context: expiration
       docker:
         dockerfile: Dockerfile
@@ -48,7 +48,7 @@ build:
         manual:
           - src: '***/*.ts'
             dest: .
-    - image: arboureric/payments
+    - image: us.gcr.io/ticketing-dev-304820/payments
       context: payments
       docker:
         dockerfile: Dockerfile
