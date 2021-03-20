@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { IncomingMessage } from 'http';
 
-export function isoAxios(req?: IncomingMessage): AxiosInstance {
+export function buildIsoAxios(req?: IncomingMessage): AxiosInstance {
   if (typeof window === 'undefined')
     // We are on the server
     return axios.create({

@@ -1,6 +1,6 @@
 import type { AppProps, AppContext } from 'next/app';
 
-import { isoAxios } from '../api/iso-axios';
+import { buildIsoAxios } from '../api/build-iso-axios';
 import { UserContextProvider } from '../contexts/user-context';
 import Header from '../components/header';
 
@@ -11,16 +11,27 @@ export default function App({ Component, pageProps }: AppProps) {
     <UserContextProvider value={pageProps.currentUser}>
       <div>
         <Header />
-        <Component />
+        <div className="container">
+          <Component {...pageProps} />
+        </div>
       </div>
     </UserContextProvider>
   );
 }
 
 App.getInitialProps = async (context: AppContext) => {
-  const { data } = await isoAxios(context.ctx.req).get(
-    '/api/users/currentUser',
-  );
+  const isoAxios = buildIsoAxios(context.ctx.req);
+  const { data } = await isoAxios.get('/api/users/currentUser');
 
-  return { pageProps: data };
+  let pageProps = {};
+  if (context.Component.getInitialProps) {
+    const nextPageProps = {
+      ...context.ctx,
+      isoAxios,
+      currentUser: data.currentUser,
+    };
+    pageProps = await context.Component.getInitialProps(nextPageProps);
+  }
+
+  return { pageProps: { ...data, ...pageProps } };
 };

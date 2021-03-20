@@ -6,6 +6,8 @@ export default function Header() {
   const links: { label: string; href: string }[] = [];
   if (!currentUser) links.push({ label: 'Sign Up', href: '/auth/signup' });
   if (!currentUser) links.push({ label: 'Sign In', href: '/auth/signin' });
+  if (currentUser) links.push({ label: 'Sell Tickets', href: '/tickets/new' });
+  if (currentUser) links.push({ label: 'My Orders', href: '/orders' });
   if (currentUser) links.push({ label: 'Sign Out', href: '/auth/signout' });
 
   return (

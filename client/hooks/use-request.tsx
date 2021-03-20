@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
+import { isObject } from '../types/main';
+
 type CustomError = {
   message: string;
 };
@@ -13,9 +15,9 @@ type CompleteAxiosError<T = any> = Required<
   Pick<AxiosError<T>, 'response' | 'isAxiosError'>
 >;
 
-function isObject(a: unknown): a is object {
-  return typeof a === 'object' && a !== null;
-}
+type ServiceResponse<T> = {
+  data: T;
+};
 
 function isCustomError(a: unknown): a is CustomError {
   return isObject(a) && typeof (a as CustomError).message === 'string';
@@ -45,13 +47,17 @@ function isAxiosServiceError(
   return isCompleteAxiosError(err) && isServiceError(err);
 }
 
+// function isAxiosServiceResponse(response: unknown): response is  {
+
+// }
+
 type Method = 'get' | 'post';
 
 type useRequestArgs = {
   url: string;
   method: Method;
   body: object;
-  onSuccess?(): unknown;
+  onSuccess?(data: unknown): void;
 };
 
 function getErrorElement(errors: CustomError[]) {
@@ -69,7 +75,7 @@ function getErrorElement(errors: CustomError[]) {
   return null;
 }
 
-export default function useRequest({
+export default function useRequest<T>({
   url,
   method,
   body,
@@ -77,14 +83,14 @@ export default function useRequest({
 }: useRequestArgs) {
   const [error, setError] = useState<JSX.Element | null>(null);
 
-  const doRequest = async () => {
+  const doRequest = async (props = {}) => {
     try {
       const response = await (method === 'get'
-        ? axios.get(url, body)
-        : axios.post(url, body));
+        ? axios.get(url, { ...body, ...props })
+        : axios.post(url, { ...body, ...props }));
 
       setError(null);
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(response.data);
 
       return response.data;
     } catch (err: unknown) {
