@@ -21,3 +21,5 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run auth tests
         run: cd payments && npm install && npm run test:ci
+        env: # Or as an environment variable
+          STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
